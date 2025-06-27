@@ -1,0 +1,9 @@
+  .icon-container {
+  perspective: 500px;
+}
+
+.icon {
+  transform: translateZ(50px) rotateX(30deg) rotateY(30deg) scale(1.2);
+ color: #4e0eff;
+  margin-top: -15px;
+}
