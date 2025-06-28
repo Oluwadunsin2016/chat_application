@@ -171,7 +171,7 @@ const {typingUsers, chats:allChats} = useChatStore();
         <LoaderCircle size={30} className="animate-spin" />
      </div> 
       ) : (
-        <div className="space-y-6 overflow-y-auto h-[75vh] px-5 mt-4">
+        <div className="space-y-6 overflow-y-auto h-[70vh] md:h-[75vh] px-5 mt-4">
         {filteredChats?.length === 0 ? (
           <div className="text-white text-center">
             <h5>Your chat history is empty!</h5>

@@ -25,7 +25,7 @@ export const useChatStore = create((set, get) => ({
 
   getPrivateMessages: async (data) => {
       set(() => ({
-        groupMessages: data?.history,
+        privateMessages: data?.history,
         chats: data?.chats,
       }));
   },

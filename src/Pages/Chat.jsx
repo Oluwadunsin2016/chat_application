@@ -13,7 +13,7 @@ import GroupInformation from "../Components/GroupInformation";
 import GroupMessages from "../Components/GroupMessages";
 import GroupChatInput from "../Components/GroupChatInput";
 import CurrentMemberInfo from "../Components/CurrentMemberInfo";
-import DeviceProfile from "../Components/DeviceProfile";
+import Profile from "../Components/Profile";
 import LastSeen from "../Components/LastSeen";
 import { CircleArrowLeft, MoreVertical, Phone, Search, Video, X } from "lucide-react";
 import { useChatStore } from "../store/useChatStore";
@@ -135,22 +135,21 @@ const Chat = () => {
   return (
     <>
       <div className="h-screen flex bg-gradient-to-br from-purple-600 via-blue-600 to-indigo-800 text-white overflow-hidden">
+         {/* Mobile View */}
         <div
-        className={`md:hidden relative w-full ${
-          current !== 0 && "h-screen"
-        } overflow-hidden`}
+        className="relative md:hidden w-full min-h-screen overflow-hidden"
       >
           <div
-            className={`top-0 left-0 w-full h-full transition-transform duration-500 ease-in-out ${
-              0 === current
-                ? "translate-x-0"
-                : 0 > current
-                ? "translate-x-full"
-                : "-translate-x-full"
-            }`}
+              className={`absolute top-0 left-0 w-full h-[100dvh] transition-transform duration-500 ease-in-out ${
+                current === 0
+                  ? 'translate-x-0'
+                  : current > 0
+                  ? '-translate-x-full'
+                  : 'translate-x-full'
+              }`}
           >
-          <div className="h-full flex flex-col overflow-hidden">
-            <div className="flex-1 py-2 bg-white/5 border-gray-50/20 overflow-y-auto">
+          <div className="h-[100dvh] max-h-[100dvh] flex flex-col">
+            <div className="py-2 flex-1 bg-white/5 border-gray-50/20 overflow-y-auto">
               {currentPosition === "Chats" && (
                 <Chats
                   currentUser={currentUser}
@@ -176,20 +175,20 @@ const Chat = () => {
                 />
               )}
               {currentPosition === "Profile" && (
-                <DeviceProfile
+                <Profile
                   isCompleted={isCompleted}
                   setIsCompleted={setIsCompleted}
                 />
               )}
             </div>
-            <SideIcons
-              currentPosition={currentPosition}
-              setCurrentPosition={setCurrentPosition}
-            />
+    <SideIcons
+      currentPosition={currentPosition}
+      setCurrentPosition={setCurrentPosition}
+    />
           </div>
           </div>
           <div
-            className={`absolute top-0 left-0 w-full h-full transition-transform duration-500 ease-in-out ${
+            className={`absolute top-0 left-0 w-full h-[100dvh]  transition-transform duration-500 ease-in-out ${
               1 === current
                 ? "translate-x-0"
                 : 1 > current
@@ -200,7 +199,7 @@ const Chat = () => {
              {!currentChat ? (
             <Welcome currentUser={currentUser} />
           ) : groupMode ? (
-                <div className="flex flex-col h-screen">
+                <div className="flex flex-col h-[100dvh] max-h-[100dvh]">
                   <div className="p-2 md:p-4 border-b bg-amber-50/15 border-gray-50/15">
                     <div className="flex items-center">
                       <div className="mr-3 text-white cursor-pointer hover:opacity-70 transition-opacity" onClick={showLeftSidebar}>
@@ -277,7 +276,7 @@ const Chat = () => {
                   />
                 </div>
           ) : (
-                <div className="flex flex-col h-screen">
+                <div className="flex flex-col h-[100dvh] max-h-[100dvh]">
                   <div className="p-2 md:p-4 border-b bg-amber-50/15 border-gray-50/15">
                     <div className="flex items-center">
                       <div className="mr-3 text-white cursor-pointer hover:opacity-70 transition-opacity" onClick={showLeftSidebar}>
@@ -327,7 +326,7 @@ const Chat = () => {
           )}
           </div>
       </div>
-       {/* Mobile View */}
+       {/* Drawer */}
           <div
             className={`fixed md:hidden top-0 right-0 h-full w-full z-50 transform transition-transform duration-500 ease-in-out ${
               showDrawer ? "translate-x-0" : "translate-x-full"
@@ -356,6 +355,7 @@ const Chat = () => {
                   currentUser={currentUser}
                   setCurrentPosition={showRightSidebarMobile}
                   setCurrentMember={setCurrentMember}
+                  onlineUsers={onlineUsers}
                 />
               )}
           
@@ -428,7 +428,7 @@ const Chat = () => {
                 />
               )}
               {currentPosition === "Profile" && (
-                <DeviceProfile
+                <Profile
                   currentUser={currentUser}
                   isCompleted={isCompleted}
                   setIsCompleted={setIsCompleted}

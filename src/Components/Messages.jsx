@@ -1,12 +1,20 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useAuth } from "../contex/authContex";
 import { useGetMessageHistory } from "../api/messageMutation";
+import { useChatStore } from "../store/useChatStore";
 
 
 const Messages = ({ currentChat }) => {
-  const { data: messages } = useGetMessageHistory(currentChat._id);
+  const { data } = useGetMessageHistory(currentChat._id);
+  const [messages, setMessages] = useState()
   const scrollRef = useRef();
   const { authUser,renderStatusIcon,getMessageStatus } = useAuth();
+  const { privateMessages} = useChatStore();
+
+
+useEffect(() => {
+  setMessages(data)
+}, [data])
 
 
   useEffect(() => {
@@ -16,6 +24,14 @@ const Messages = ({ currentChat }) => {
       window.scrollTo(x, window.scrollY);
     }
   }, [messages]);
+
+     useEffect(() => {
+      console.log("privateMessages:", privateMessages);
+      
+   if (privateMessages?.length>0) {
+    setMessages(privateMessages)
+   }
+     }, [privateMessages])
 
   const time = (message) => {
     if (message) {
@@ -32,7 +48,7 @@ const Messages = ({ currentChat }) => {
     <div className="flex-1 overflow-y-auto overflow-x-hidden">
       <div className="space-y-3 md:space-y-4">
         {messages &&
-          messages.map((message) =>
+          messages?.map((message) =>
             message.type === "label" ? (
               <div key={message._id} className="my-3 text-center">
                 <span className="text-gray-100 text-xs md:text-sm">
