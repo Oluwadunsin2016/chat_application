@@ -2,14 +2,32 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useGetMessageHistory } from "../api/groupMutation";
 import { useAuth } from "../contex/authContex";
+import { useChatStore } from "../store/useChatStore";
 
 const GroupMessages = ({
   currentGroup,
 }) => {
-   const {data:messages} = useGetMessageHistory(currentGroup._id)
+   const {data} = useGetMessageHistory(currentGroup._id)
       const { authUser } = useAuth();
+       const [messages, setMessages] = useState()
+        const { groupMessages} = useChatStore();
 
   const scrollRef=useRef()
+
+  useEffect(() => {
+    setMessages(data)
+  }, [data])
+
+
+     useEffect(() => {
+        console.log("groupMessages:", groupMessages);
+        
+     if (groupMessages?.length>0) {
+      setMessages(groupMessages)
+     }
+       }, [groupMessages])
+
+
 useEffect(() => {
   if (scrollRef.current) {
     const el = scrollRef.current;

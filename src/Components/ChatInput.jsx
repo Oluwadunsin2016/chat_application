@@ -79,12 +79,13 @@ const sendChat=async()=>{
       from: currentUser._id,
       to: currentChat._id,
       message:msg,
-    })
-    setMsg("")
-    socket.emit("send-message", {
-      from: currentUser._id,
-      to: currentChat._id,
-    });
+    },{onSuccess:()=>{
+      setMsg("")
+      socket.emit("send-message", {
+        from: currentUser._id,
+        to: currentChat._id,
+      });
+    }})
     socket.emit("stop-typing", {
       from: currentUser._id,
       to: currentChat._id,

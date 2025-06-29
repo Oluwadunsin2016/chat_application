@@ -10,6 +10,7 @@ const useSocketEvents = () => {
   const queryClient = useQueryClient();
   const {
     getPrivateMessages,
+    getGroupMessages,
     setOnlineUsers,
     addTypingUser,
     removeTypingUser,
@@ -50,9 +51,15 @@ const useSocketEvents = () => {
       getPrivateMessages(data);
     });
 
+    socket.on('received-group-message', (data) => {    
+      console.log("Received group message",data)
+      getGroupMessages(data);
+    });
+
     return () => {
       socket.off('currentlyOnline');
       socket.off('received-message');
+      socket.off('received-group-message');
       socket.off('onlineUsers');
       socket.off('user-typing');
       socket.off('user-stopped-typing');

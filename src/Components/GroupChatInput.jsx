@@ -84,8 +84,14 @@ const emojiRef=useRef()
           from: currentUser._id,
           groupId: currentGroup._id,
           message:msg,
-        })
-        setMsg("")
+        },{onSuccess:()=>{
+          setMsg("")
+          socket.emit("send-group-message", {
+            from: currentUser._id,
+            groupId: currentGroup._id,
+          });
+        }})
+        
         socket.emit("stop-typing", {
           from: currentUser._id,
           groupId: currentGroup._id,
