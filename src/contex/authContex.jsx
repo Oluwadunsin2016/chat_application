@@ -91,7 +91,7 @@ export const AuthProvider = ({ children }) => {
 
 
    const getMessageStatus = (message,chatId) => {
-     const isRead = !message?.unreadBy.includes(chatId);
+     const isRead = !message?.unreadBy?.includes(chatId);
      
      const isRecipientOnline = onlineUsers?.includes(chatId);
  
